@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RecipesAPI.Migrations
 {
-    public partial class initialMigration : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -18,7 +18,8 @@ namespace RecipesAPI.Migrations
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -34,7 +35,8 @@ namespace RecipesAPI.Migrations
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -50,7 +52,8 @@ namespace RecipesAPI.Migrations
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -66,33 +69,12 @@ namespace RecipesAPI.Migrations
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Unit", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CookingTime",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UnitId = table.Column<int>(type: "int", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CookingTime", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CookingTime_Unit_UnitId",
-                        column: x => x.UnitId,
-                        principalTable: "Unit",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -106,7 +88,8 @@ namespace RecipesAPI.Migrations
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -126,7 +109,6 @@ namespace RecipesAPI.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IngridientId = table.Column<int>(type: "int", nullable: true),
-                    CookingTimeId = table.Column<int>(type: "int", nullable: true),
                     DifficultyId = table.Column<int>(type: "int", nullable: true),
                     ToolId = table.Column<int>(type: "int", nullable: true),
                     DishTypeId = table.Column<int>(type: "int", nullable: true),
@@ -138,11 +120,6 @@ namespace RecipesAPI.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Dish", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Dish_CookingTime_CookingTimeId",
-                        column: x => x.CookingTimeId,
-                        principalTable: "CookingTime",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Dish_Difficulty_DifficultyId",
                         column: x => x.DifficultyId,
@@ -164,16 +141,6 @@ namespace RecipesAPI.Migrations
                         principalTable: "Tool",
                         principalColumn: "Id");
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CookingTime_UnitId",
-                table: "CookingTime",
-                column: "UnitId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Dish_CookingTimeId",
-                table: "Dish",
-                column: "CookingTimeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Dish_DifficultyId",
@@ -205,9 +172,6 @@ namespace RecipesAPI.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Dish");
-
-            migrationBuilder.DropTable(
-                name: "CookingTime");
 
             migrationBuilder.DropTable(
                 name: "Difficulty");

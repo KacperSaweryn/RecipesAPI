@@ -6,6 +6,5 @@ namespace RecipesAPI.Models
     {
 
         public ICollection<Ingridient>? Ingridients { get; set; }
-        public ICollection<CookingTime>? CookingTimes { get; set; }
     }
 }

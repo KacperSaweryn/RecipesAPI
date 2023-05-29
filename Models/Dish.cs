@@ -13,11 +13,6 @@ namespace RecipesAPI.Models
         [ForeignKey("IngridientId")]
         public virtual Ingridient? Ingridient { get; set; }
 
-        public int? CookingTimeId { get; set; }
-
-        [ForeignKey("CookingTimeId")]
-        public virtual CookingTime? CookingTime { get; set; }
-
         public int? DifficultyId { get; set; }
 
         [ForeignKey("DifficultyId")]

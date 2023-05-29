@@ -9,24 +9,22 @@ namespace RecipesAPI.Data
 {
     public class RecipesContext : DbContext
     {
-        public RecipesContext (DbContextOptions<RecipesContext> options)
+        public RecipesContext(DbContextOptions<RecipesContext> options)
             : base(options)
         {
         }
 
-        public DbSet<RecipesAPI.Models.CookingTime>? CookingTime { get; set; }
+        public DbSet<Difficulty>? Difficulty { get; set; }
 
-        public DbSet<RecipesAPI.Models.Difficulty>? Difficulty { get; set; }
+        public DbSet<Dish>? Dish { get; set; }
 
-        public DbSet<RecipesAPI.Models.Dish>? Dish { get; set; }
+        public DbSet<DishType>? DishType { get; set; }
 
-        public DbSet<RecipesAPI.Models.DishType>? DishType { get; set; }
+        public DbSet<Ingridient>? Ingridient { get; set; }
 
-        public DbSet<RecipesAPI.Models.Ingridient>? Ingridient { get; set; }
+        public DbSet<Tool>? Tool { get; set; }
 
-        public DbSet<RecipesAPI.Models.Tool>? Tool { get; set; }
-
-        public DbSet<RecipesAPI.Models.Unit>? Unit { get; set; }
+        public DbSet<Unit>? Unit { get; set; }
 
     }
 }

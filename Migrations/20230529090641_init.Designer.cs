@@ -12,8 +12,8 @@ using RecipesAPI.Data;
 namespace RecipesAPI.Migrations
 {
     [DbContext(typeof(RecipesContext))]
-    [Migration("20230521153715_initialMigration")]
-    partial class initialMigration
+    [Migration("20230529090641_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,37 +23,6 @@ namespace RecipesAPI.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("RecipesAPI.Models.CookingTime", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("UnitId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UnitId");
-
-                    b.ToTable("CookingTime");
-                });
 
             modelBuilder.Entity("RecipesAPI.Models.Difficulty", b =>
                 {
@@ -65,6 +34,10 @@ namespace RecipesAPI.Migrations
 
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -88,9 +61,6 @@ namespace RecipesAPI.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int?>("CookingTimeId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -123,8 +93,6 @@ namespace RecipesAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CookingTimeId");
-
                     b.HasIndex("DifficultyId");
 
                     b.HasIndex("DishTypeId");
@@ -146,6 +114,10 @@ namespace RecipesAPI.Migrations
 
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -172,6 +144,10 @@ namespace RecipesAPI.Migrations
 
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -207,6 +183,10 @@ namespace RecipesAPI.Migrations
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -233,6 +213,10 @@ namespace RecipesAPI.Migrations
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -248,21 +232,8 @@ namespace RecipesAPI.Migrations
                     b.ToTable("Unit");
                 });
 
-            modelBuilder.Entity("RecipesAPI.Models.CookingTime", b =>
-                {
-                    b.HasOne("RecipesAPI.Models.Unit", "Unit")
-                        .WithMany("CookingTimes")
-                        .HasForeignKey("UnitId");
-
-                    b.Navigation("Unit");
-                });
-
             modelBuilder.Entity("RecipesAPI.Models.Dish", b =>
                 {
-                    b.HasOne("RecipesAPI.Models.CookingTime", "CookingTime")
-                        .WithMany("Dishes")
-                        .HasForeignKey("CookingTimeId");
-
                     b.HasOne("RecipesAPI.Models.Difficulty", "Difficulty")
                         .WithMany("Dishes")
                         .HasForeignKey("DifficultyId");
@@ -278,8 +249,6 @@ namespace RecipesAPI.Migrations
                     b.HasOne("RecipesAPI.Models.Tool", "Tool")
                         .WithMany("Dishes")
                         .HasForeignKey("ToolId");
-
-                    b.Navigation("CookingTime");
 
                     b.Navigation("Difficulty");
 
@@ -297,11 +266,6 @@ namespace RecipesAPI.Migrations
                         .HasForeignKey("UnitId");
 
                     b.Navigation("Unit");
-                });
-
-            modelBuilder.Entity("RecipesAPI.Models.CookingTime", b =>
-                {
-                    b.Navigation("Dishes");
                 });
 
             modelBuilder.Entity("RecipesAPI.Models.Difficulty", b =>
@@ -326,8 +290,6 @@ namespace RecipesAPI.Migrations
 
             modelBuilder.Entity("RecipesAPI.Models.Unit", b =>
                 {
-                    b.Navigation("CookingTimes");
-
                     b.Navigation("Ingridients");
                 });
 #pragma warning restore 612, 618
