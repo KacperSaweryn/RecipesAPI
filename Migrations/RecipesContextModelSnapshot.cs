@@ -49,7 +49,7 @@ namespace RecipesAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Difficulty");
+                    b.ToTable("Difficulty", (string)null);
                 });
 
             modelBuilder.Entity("RecipesAPI.Models.Dish", b =>
@@ -99,7 +99,7 @@ namespace RecipesAPI.Migrations
 
                     b.HasIndex("ToolId");
 
-                    b.ToTable("Dish");
+                    b.ToTable("Dish", (string)null);
                 });
 
             modelBuilder.Entity("RecipesAPI.Models.DishType", b =>
@@ -129,7 +129,7 @@ namespace RecipesAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DishType");
+                    b.ToTable("DishType", (string)null);
                 });
 
             modelBuilder.Entity("RecipesAPI.Models.Ingridient", b =>
@@ -167,7 +167,7 @@ namespace RecipesAPI.Migrations
 
                     b.HasIndex("UnitId");
 
-                    b.ToTable("Ingridient");
+                    b.ToTable("Ingridient", (string)null);
                 });
 
             modelBuilder.Entity("RecipesAPI.Models.Tool", b =>
@@ -197,7 +197,7 @@ namespace RecipesAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tool");
+                    b.ToTable("Tool", (string)null);
                 });
 
             modelBuilder.Entity("RecipesAPI.Models.Unit", b =>
@@ -227,7 +227,7 @@ namespace RecipesAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Unit");
+                    b.ToTable("Unit", (string)null);
                 });
 
             modelBuilder.Entity("RecipesAPI.Models.Dish", b =>
