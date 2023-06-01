@@ -93,7 +93,7 @@ namespace RecipesAPI.Controllers
             _context.Tool.Add(tool);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTool", new { id = tool.Id }, tool);
+            return Ok();
         }
 
         // DELETE: api/Tools/5

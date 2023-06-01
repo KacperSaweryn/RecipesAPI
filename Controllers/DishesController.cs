@@ -93,7 +93,7 @@ namespace RecipesAPI.Controllers
             _context.Dish.Add(dish);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetDish", new { id = dish.Id }, dish);
+            return Ok();
         }
 
         // DELETE: api/Dishes/5
