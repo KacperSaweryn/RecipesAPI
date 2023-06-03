@@ -93,7 +93,7 @@ namespace RecipesAPI.Controllers
             _context.Ingridient.Add(ingridient);
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return Ok(ingridient);
         }
 
         // DELETE: api/Ingridients/5
