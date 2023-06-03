@@ -93,8 +93,8 @@ namespace RecipesAPI.Controllers
             _context.Unit.Add(unit);
             await _context.SaveChangesAsync();
 
-            // return CreatedAtAction("GetUnit", new { id = unit.Id }, unit);
-            return Ok();
+           
+             return Ok(unit);
         }
 
         // DELETE: api/Units/5

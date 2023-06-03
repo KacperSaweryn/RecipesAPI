@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RecipesAPI.Data;
+using RecipesAPI.Migrations;
 using RecipesAPI.Models;
 
 namespace RecipesAPI.Controllers
@@ -93,7 +94,8 @@ namespace RecipesAPI.Controllers
             _context.Tool.Add(tool);
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return Ok( tool);
+           
         }
 
         // DELETE: api/Tools/5

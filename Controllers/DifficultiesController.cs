@@ -93,7 +93,7 @@ namespace RecipesAPI.Controllers
             _context.Difficulty.Add(difficulty);
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return Ok(difficulty);
         }
 
         // DELETE: api/Difficulties/5
