@@ -2,7 +2,7 @@
 
 namespace RecipesAPI.Models.Abstract
 {
-    public class BaseDatatable
+    public class BaseDataTable
     {
         [Key]
         public int Id { get; set; }
