@@ -1,6 +1,5 @@
 ﻿using RecipesAPI.Models;
 using RecipesAPI.Models.Abstract;
-using System.ComponentModel.DataAnnotations.Schema;
 using RecipesAPI.Helpers;
 
 namespace RecipesAPI.ViewModels
