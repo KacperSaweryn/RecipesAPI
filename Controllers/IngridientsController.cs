@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RecipesAPI.Data;
 using RecipesAPI.Models;
+using RecipesAPI.Models.BusinessLogic;
+using RecipesAPI.ViewModels;
 
 namespace RecipesAPI.Controllers
 {
@@ -23,23 +20,27 @@ namespace RecipesAPI.Controllers
 
         // GET: api/Ingridients
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Ingridient>>> GetIngridient()
+        public async Task<ActionResult<IEnumerable<IngridientForView>>> GetIngridient()
         {
-          if (_context.Ingridient == null)
-          {
-              return NotFound();
-          }
-            return await _context.Ingridient.ToListAsync();
+            if (_context.Ingridient == null)
+            {
+                return NotFound();
+            }
+
+            return (await _context.Ingridient
+                .Include(ingridient => ingridient.Unit)
+                .ToListAsync()).Select(ingridient => (IngridientForView)ingridient).ToList();
         }
 
         // GET: api/Ingridients/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Ingridient>> GetIngridient(int id)
+        public async Task<ActionResult<IngridientForView>> GetIngridient(int id)
         {
-          if (_context.Ingridient == null)
-          {
-              return NotFound();
-          }
+            if (_context.Ingridient == null)
+            {
+                return NotFound();
+            }
+
             var ingridient = await _context.Ingridient.FindAsync(id);
 
             if (ingridient == null)
@@ -47,7 +48,7 @@ namespace RecipesAPI.Controllers
                 return NotFound();
             }
 
-            return ingridient;
+            return Ok(ingridient);
         }
 
         // PUT: api/Ingridients/5
@@ -84,13 +85,23 @@ namespace RecipesAPI.Controllers
         // POST: api/Ingridients
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Ingridient>> PostIngridient(Ingridient ingridient)
+        public async Task<ActionResult<IngridientForView>> PostIngridient(IngridientForView ingridient)
         {
-          if (_context.Ingridient == null)
-          {
-              return Problem("Entity set 'RecipesContext.Ingridient'  is null.");
-          }
-            _context.Ingridient.Add(ingridient);
+            if (_context.Ingridient == null)
+            {
+                return Problem("Entity set 'RecipesContext.Ingridient'  is null.");
+            }
+
+            try
+            {
+                await IngridientB.ValidateAndFillIngridient(ingridient, _context);
+            }
+            catch (Exception e)
+            {
+                return Problem(e.Message);
+            }
+
+            _context.Ingridient.Add((Ingridient)ingridient);
             await _context.SaveChangesAsync();
 
             return Ok(ingridient);
@@ -104,6 +115,7 @@ namespace RecipesAPI.Controllers
             {
                 return NotFound();
             }
+
             var ingridient = await _context.Ingridient.FindAsync(id);
             if (ingridient == null)
             {

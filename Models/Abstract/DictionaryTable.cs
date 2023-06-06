@@ -2,7 +2,7 @@
 
 namespace RecipesAPI.Models.Abstract
 {
-    public class DictionaryTable : BaseDatatable
+    public class DictionaryTable : BaseDataTable
     {
         [Required(ErrorMessage = "This should have a name!")]
         public string Name { get; set; } = null!;
