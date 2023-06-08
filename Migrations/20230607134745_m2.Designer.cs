@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RecipesAPI.Data;
 
@@ -11,9 +12,10 @@ using RecipesAPI.Data;
 namespace RecipesAPI.Migrations
 {
     [DbContext(typeof(RecipesContext))]
-    partial class RecipesContextModelSnapshot : ModelSnapshot
+    [Migration("20230607134745_m2")]
+    partial class m2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,6 +37,21 @@ namespace RecipesAPI.Migrations
                     b.HasIndex("DishesId");
 
                     b.ToTable("DifficultyDish");
+                });
+
+            modelBuilder.Entity("DishIngridient", b =>
+                {
+                    b.Property<int>("DishesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IngridientsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("DishesId", "IngridientsId");
+
+                    b.HasIndex("IngridientsId");
+
+                    b.ToTable("DishIngridient");
                 });
 
             modelBuilder.Entity("DishTool", b =>
@@ -117,41 +134,6 @@ namespace RecipesAPI.Migrations
                     b.ToTable("Dish");
                 });
 
-            modelBuilder.Entity("RecipesAPI.Models.DishIngridient", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("DishId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IngridientId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<double>("Quantity")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DishId");
-
-                    b.HasIndex("IngridientId");
-
-                    b.ToTable("DishIngridient");
-                });
-
             modelBuilder.Entity("RecipesAPI.Models.DishType", b =>
                 {
                     b.Property<int>("Id")
@@ -206,6 +188,9 @@ namespace RecipesAPI.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Quantity")
+                        .HasColumnType("float");
 
                     b.Property<int?>("UnitId")
                         .HasColumnType("int");
@@ -292,6 +277,21 @@ namespace RecipesAPI.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("DishIngridient", b =>
+                {
+                    b.HasOne("RecipesAPI.Models.Dish", null)
+                        .WithMany()
+                        .HasForeignKey("DishesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RecipesAPI.Models.Ingridient", null)
+                        .WithMany()
+                        .HasForeignKey("IngridientsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("DishTool", b =>
                 {
                     b.HasOne("RecipesAPI.Models.Dish", null)
@@ -309,26 +309,11 @@ namespace RecipesAPI.Migrations
 
             modelBuilder.Entity("RecipesAPI.Models.Dish", b =>
                 {
-                    b.HasOne("RecipesAPI.Models.DishType", "DishType")
+                    b.HasOne("RecipesAPI.Models.DishType", "DishTypeType")
                         .WithMany("Dishes")
                         .HasForeignKey("DishTypeId");
 
-                    b.Navigation("DishType");
-                });
-
-            modelBuilder.Entity("RecipesAPI.Models.DishIngridient", b =>
-                {
-                    b.HasOne("RecipesAPI.Models.Dish", "Dish")
-                        .WithMany("DishIngridients")
-                        .HasForeignKey("DishId");
-
-                    b.HasOne("RecipesAPI.Models.Ingridient", "Ingridient")
-                        .WithMany("DishIngridients")
-                        .HasForeignKey("IngridientId");
-
-                    b.Navigation("Dish");
-
-                    b.Navigation("Ingridient");
+                    b.Navigation("DishTypeType");
                 });
 
             modelBuilder.Entity("RecipesAPI.Models.Ingridient", b =>
@@ -340,19 +325,9 @@ namespace RecipesAPI.Migrations
                     b.Navigation("Unit");
                 });
 
-            modelBuilder.Entity("RecipesAPI.Models.Dish", b =>
-                {
-                    b.Navigation("DishIngridients");
-                });
-
             modelBuilder.Entity("RecipesAPI.Models.DishType", b =>
                 {
                     b.Navigation("Dishes");
-                });
-
-            modelBuilder.Entity("RecipesAPI.Models.Ingridient", b =>
-                {
-                    b.Navigation("DishIngridients");
                 });
 
             modelBuilder.Entity("RecipesAPI.Models.Unit", b =>

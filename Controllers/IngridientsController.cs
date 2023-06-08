@@ -1,8 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RecipesAPI.Data;
 using RecipesAPI.Models;
-using RecipesAPI.Models.BusinessLogic;
 using RecipesAPI.ViewModels;
 
 namespace RecipesAPI.Controllers
@@ -26,10 +30,11 @@ namespace RecipesAPI.Controllers
             {
                 return NotFound();
             }
-
             return (await _context.Ingridient
-                .Include(ingridient => ingridient.Unit)
-                .ToListAsync()).Select(ingridient => (IngridientForView)ingridient).ToList();
+                        .Include(ingridient => ingridient.Unit)
+                        .ToListAsync())
+                        .Select(type => (IngridientForView)type)
+                        .ToList();
         }
 
         // GET: api/Ingridients/5
@@ -40,7 +45,6 @@ namespace RecipesAPI.Controllers
             {
                 return NotFound();
             }
-
             var ingridient = await _context.Ingridient.FindAsync(id);
 
             if (ingridient == null)
@@ -54,7 +58,7 @@ namespace RecipesAPI.Controllers
         // PUT: api/Ingridients/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutIngridient(int id, Ingridient ingridient)
+        public async Task<IActionResult> PutIngridient(int id, IngridientForView ingridient)
         {
             if (id != ingridient.Id)
             {
@@ -91,16 +95,6 @@ namespace RecipesAPI.Controllers
             {
                 return Problem("Entity set 'RecipesContext.Ingridient'  is null.");
             }
-
-            try
-            {
-                await IngridientB.ValidateAndFillIngridient(ingridient, _context);
-            }
-            catch (Exception e)
-            {
-                return Problem(e.Message);
-            }
-
             _context.Ingridient.Add((Ingridient)ingridient);
             await _context.SaveChangesAsync();
 
@@ -115,7 +109,6 @@ namespace RecipesAPI.Controllers
             {
                 return NotFound();
             }
-
             var ingridient = await _context.Ingridient.FindAsync(id);
             if (ingridient == null)
             {

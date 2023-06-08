@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RecipesAPI.Data;
 
@@ -11,9 +12,10 @@ using RecipesAPI.Data;
 namespace RecipesAPI.Migrations
 {
     [DbContext(typeof(RecipesContext))]
-    partial class RecipesContextModelSnapshot : ModelSnapshot
+    [Migration("20230608151235_m3")]
+    partial class m3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -117,41 +119,6 @@ namespace RecipesAPI.Migrations
                     b.ToTable("Dish");
                 });
 
-            modelBuilder.Entity("RecipesAPI.Models.DishIngridient", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("DishId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IngridientId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<double>("Quantity")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DishId");
-
-                    b.HasIndex("IngridientId");
-
-                    b.ToTable("DishIngridient");
-                });
-
             modelBuilder.Entity("RecipesAPI.Models.DishType", b =>
                 {
                     b.Property<int>("Id")
@@ -197,6 +164,9 @@ namespace RecipesAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("DishId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -207,10 +177,15 @@ namespace RecipesAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<double>("Quantity")
+                        .HasColumnType("float");
+
                     b.Property<int?>("UnitId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DishId");
 
                     b.HasIndex("UnitId");
 
@@ -316,43 +291,29 @@ namespace RecipesAPI.Migrations
                     b.Navigation("DishType");
                 });
 
-            modelBuilder.Entity("RecipesAPI.Models.DishIngridient", b =>
-                {
-                    b.HasOne("RecipesAPI.Models.Dish", "Dish")
-                        .WithMany("DishIngridients")
-                        .HasForeignKey("DishId");
-
-                    b.HasOne("RecipesAPI.Models.Ingridient", "Ingridient")
-                        .WithMany("DishIngridients")
-                        .HasForeignKey("IngridientId");
-
-                    b.Navigation("Dish");
-
-                    b.Navigation("Ingridient");
-                });
-
             modelBuilder.Entity("RecipesAPI.Models.Ingridient", b =>
                 {
+                    b.HasOne("RecipesAPI.Models.Dish", "Dish")
+                        .WithMany("Ingridients")
+                        .HasForeignKey("DishId");
+
                     b.HasOne("RecipesAPI.Models.Unit", "Unit")
                         .WithMany("Ingridients")
                         .HasForeignKey("UnitId");
+
+                    b.Navigation("Dish");
 
                     b.Navigation("Unit");
                 });
 
             modelBuilder.Entity("RecipesAPI.Models.Dish", b =>
                 {
-                    b.Navigation("DishIngridients");
+                    b.Navigation("Ingridients");
                 });
 
             modelBuilder.Entity("RecipesAPI.Models.DishType", b =>
                 {
                     b.Navigation("Dishes");
-                });
-
-            modelBuilder.Entity("RecipesAPI.Models.Ingridient", b =>
-                {
-                    b.Navigation("DishIngridients");
                 });
 
             modelBuilder.Entity("RecipesAPI.Models.Unit", b =>

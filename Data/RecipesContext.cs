@@ -22,6 +22,8 @@ namespace RecipesAPI.Data
 
         public DbSet<Ingridient>? Ingridient { get; set; }
 
+        public DbSet<DishIngridient>? DishIngridient { get; set; }
+
         public DbSet<Tool>? Tool { get; set; }
 
         public DbSet<Unit>? Unit { get; set; }
