@@ -1,4 +1,5 @@
-﻿using RecipesAPI.Helpers;
+﻿using RecipesAPI.Data;
+using RecipesAPI.Helpers;
 using RecipesAPI.ViewModels;
 
 namespace RecipesAPI.Models.BusinessLogic

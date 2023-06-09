@@ -25,9 +25,10 @@ namespace RecipesAPI.Models.BusinessLogic
                 }
                 dishIngridient.DishData = DishB.ConvertDishToDishForView(dish);
             }
+
             if (string.IsNullOrEmpty(dishIngridient.IngridientName))
             {
-                var ingridient = await _context.Ingridient.FindAsync(dishIngridient.DishId);
+                var ingridient = await _context.Ingridient.FindAsync(dishIngridient.IngridientId);
                 if (ingridient == null)
                 {
                     throw new Exception("Ingridient is null.");
