@@ -10,11 +10,11 @@ namespace RecipesAPI.Models.BusinessLogic
         {
             if (_context.Dish == null)
             {
-                throw new Exception("Entity set 'GrzechuWarteContext.Dish'  is null.");
+                throw new Exception("Entity set 'RecipesContext.Dish'  is null.");
             }
             if (_context.Ingredient == null)
             {
-                throw new Exception("Entity set 'GrzechuWarteContext.Ingredient'  is null.");
+                throw new Exception("Entity set 'RecipesContext.Ingredient'  is null.");
             }
             if (dishIngredient.DishData == null)
             {

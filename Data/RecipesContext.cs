@@ -22,11 +22,14 @@ namespace RecipesAPI.Data
 
         public DbSet<Ingredient>? Ingredient { get; set; }
 
-        public DbSet<DishIngredient>? DishIngredient { get; set; }
 
         public DbSet<Tool>? Tool { get; set; }
 
         public DbSet<Unit>? Unit { get; set; }
+
+        public DbSet<DishIngredient>? DishIngredient { get; set; }
+
+        public DbSet<DishDifficulty>? DishDifficulty { get; set; }
 
     }
 }

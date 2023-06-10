@@ -90,7 +90,7 @@ namespace RecipesAPI.Controllers
         {
             if (_context.DishIngredient == null)
             {
-                return Problem("Entity set 'GrzechuWarteContext.DishIngredient'  is null.");
+                return Problem("Entity set 'RecipesContext.DishIngredient'  is null.");
             }
             try
             {
