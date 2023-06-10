@@ -14,5 +14,17 @@ namespace RecipesAPI.Models.BusinessLogic
                 DishTypeName = dish?.DishType?.Name ?? String.Empty
             }.CopyProperties(dish);
         }
+
+        public async static Task<bool> DeleteDishIngredients(Dish dish, RecipesContext _context)
+        {
+            var dishIngredients = _context.DishIngredient.Where(ingridient => ingridient.DishId == dish.Id).ToList();
+            foreach (var ingridient in dishIngredients)
+            {
+                _context.Remove(ingridient);
+            }
+
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }

@@ -12,7 +12,7 @@ namespace RecipesAPI.Models
         [ForeignKey("DishTypeId")]
         public virtual DishType? DishType { get; set; }
 
-        public ICollection<DishIngridient>? DishIngridients { get; set; }
+        public ICollection<DishIngredient>? DishIngredients { get; set; }
 
         public ICollection<Difficulty>? Difficulties { get; set; }
 

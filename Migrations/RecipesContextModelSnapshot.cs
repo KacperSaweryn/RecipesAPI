@@ -117,7 +117,7 @@ namespace RecipesAPI.Migrations
                     b.ToTable("Dish");
                 });
 
-            modelBuilder.Entity("RecipesAPI.Models.DishIngridient", b =>
+            modelBuilder.Entity("RecipesAPI.Models.DishIngredient", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -131,7 +131,7 @@ namespace RecipesAPI.Migrations
                     b.Property<int?>("DishId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("IngridientId")
+                    b.Property<int?>("IngredientId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
@@ -147,9 +147,9 @@ namespace RecipesAPI.Migrations
 
                     b.HasIndex("DishId");
 
-                    b.HasIndex("IngridientId");
+                    b.HasIndex("IngredientId");
 
-                    b.ToTable("DishIngridient");
+                    b.ToTable("DishIngredient");
                 });
 
             modelBuilder.Entity("RecipesAPI.Models.DishType", b =>
@@ -182,7 +182,7 @@ namespace RecipesAPI.Migrations
                     b.ToTable("DishType");
                 });
 
-            modelBuilder.Entity("RecipesAPI.Models.Ingridient", b =>
+            modelBuilder.Entity("RecipesAPI.Models.Ingredient", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -214,7 +214,7 @@ namespace RecipesAPI.Migrations
 
                     b.HasIndex("UnitId");
 
-                    b.ToTable("Ingridient");
+                    b.ToTable("Ingredient");
                 });
 
             modelBuilder.Entity("RecipesAPI.Models.Tool", b =>
@@ -316,25 +316,25 @@ namespace RecipesAPI.Migrations
                     b.Navigation("DishType");
                 });
 
-            modelBuilder.Entity("RecipesAPI.Models.DishIngridient", b =>
+            modelBuilder.Entity("RecipesAPI.Models.DishIngredient", b =>
                 {
                     b.HasOne("RecipesAPI.Models.Dish", "Dish")
-                        .WithMany("DishIngridients")
+                        .WithMany("DishIngredients")
                         .HasForeignKey("DishId");
 
-                    b.HasOne("RecipesAPI.Models.Ingridient", "Ingridient")
-                        .WithMany("DishIngridients")
-                        .HasForeignKey("IngridientId");
+                    b.HasOne("RecipesAPI.Models.Ingredient", "Ingredient")
+                        .WithMany("DishIngredients")
+                        .HasForeignKey("IngredientId");
 
                     b.Navigation("Dish");
 
-                    b.Navigation("Ingridient");
+                    b.Navigation("Ingredient");
                 });
 
-            modelBuilder.Entity("RecipesAPI.Models.Ingridient", b =>
+            modelBuilder.Entity("RecipesAPI.Models.Ingredient", b =>
                 {
                     b.HasOne("RecipesAPI.Models.Unit", "Unit")
-                        .WithMany("Ingridients")
+                        .WithMany("Ingredients")
                         .HasForeignKey("UnitId");
 
                     b.Navigation("Unit");
@@ -342,7 +342,7 @@ namespace RecipesAPI.Migrations
 
             modelBuilder.Entity("RecipesAPI.Models.Dish", b =>
                 {
-                    b.Navigation("DishIngridients");
+                    b.Navigation("DishIngredients");
                 });
 
             modelBuilder.Entity("RecipesAPI.Models.DishType", b =>
@@ -350,14 +350,14 @@ namespace RecipesAPI.Migrations
                     b.Navigation("Dishes");
                 });
 
-            modelBuilder.Entity("RecipesAPI.Models.Ingridient", b =>
+            modelBuilder.Entity("RecipesAPI.Models.Ingredient", b =>
                 {
-                    b.Navigation("DishIngridients");
+                    b.Navigation("DishIngredients");
                 });
 
             modelBuilder.Entity("RecipesAPI.Models.Unit", b =>
                 {
-                    b.Navigation("Ingridients");
+                    b.Navigation("Ingredients");
                 });
 #pragma warning restore 612, 618
         }

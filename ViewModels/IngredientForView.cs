@@ -5,20 +5,20 @@ using RecipesAPI.Models.BusinessLogic;
 
 namespace RecipesAPI.ViewModels
 {
-    public class IngridientForView : DictionaryTable
+    public class IngredientForView : DictionaryTable
     {
         public int? UnitId { get; set; }
         public string? UnitName { get; set; }
 
-        public static explicit operator Ingridient(IngridientForView ingridientForView)
+        public static explicit operator Ingredient(IngredientForView ingridientForView)
         {
-            var result = new Ingridient().CopyProperties(ingridientForView);
+            var result = new Ingredient().CopyProperties(ingridientForView);
             return result;
         }
 
-        public static implicit operator IngridientForView(Ingridient ingridient)
+        public static implicit operator IngredientForView(Ingredient ingridient)
         {
-            var result = new IngridientForView().CopyProperties(ingridient);
+            var result = new IngredientForView().CopyProperties(ingridient);
             if (ingridient.Unit != null)
             {
                 result.UnitName = ingridient.Unit.Name;

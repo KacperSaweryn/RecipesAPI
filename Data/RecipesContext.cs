@@ -20,9 +20,9 @@ namespace RecipesAPI.Data
 
         public DbSet<DishType>? DishType { get; set; }
 
-        public DbSet<Ingridient>? Ingridient { get; set; }
+        public DbSet<Ingredient>? Ingredient { get; set; }
 
-        public DbSet<DishIngridient>? DishIngridient { get; set; }
+        public DbSet<DishIngredient>? DishIngredient { get; set; }
 
         public DbSet<Tool>? Tool { get; set; }
 

@@ -7,58 +7,60 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RecipesAPI.Data;
 using RecipesAPI.Models;
+using RecipesAPI.Models.BusinessLogic;
 using RecipesAPI.ViewModels;
 
 namespace RecipesAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class IngridientsController : ControllerBase
+    public class IngredientsController : ControllerBase
     {
         private readonly RecipesContext _context;
 
-        public IngridientsController(RecipesContext context)
+        public IngredientsController(RecipesContext context)
         {
             _context = context;
         }
 
-        // GET: api/Ingridients
+        // GET: api/Ingredients
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<IngridientForView>>> GetIngridient()
+        public async Task<ActionResult<IEnumerable<IngredientForView>>> GetIngredient()
         {
-            if (_context.Ingridient == null)
+            if (_context.Ingredient == null)
             {
                 return NotFound();
             }
-            return (await _context.Ingridient
+            return (await _context.Ingredient
                         .Include(ingridient => ingridient.Unit)
                         .ToListAsync())
-                        .Select(type => (IngridientForView)type)
+                        .Select(type => (IngredientForView)type)
                         .ToList();
         }
 
-        // GET: api/Ingridients/5
+        // GET: api/Ingredients/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<IngridientForView>> GetIngridient(int id)
+        public async Task<ActionResult<IngredientForView>> GetIngredient(int id)
         {
-            if (_context.Ingridient == null)
+            if (_context.Ingredient == null)
             {
                 return NotFound();
             }
-            var ingridient = await _context.Ingridient.FindAsync(id);
+
+            var ingridient = await _context.Ingredient.Include(ing => ing.Unit).FirstOrDefaultAsync(ing => ing.Id == id);
 
             if (ingridient == null)
             {
                 return NotFound();
             }
 
-            return Ok(ingridient);
+            return IngredientB.ConvertIngredientToIngredientForView(ingridient);
         }
 
-        // PUT: api/Ingridients/5
+        // PUT: api/Ingredients/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutIngridient(int id, IngridientForView ingridient)
+        public async Task<IActionResult> PutIngredient(int id, IngredientForView ingridient)
         {
             if (id != ingridient.Id)
             {
@@ -73,7 +75,7 @@ namespace RecipesAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!IngridientExists(id))
+                if (!IngredientExists(id))
                 {
                     return NotFound();
                 }
@@ -86,44 +88,44 @@ namespace RecipesAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Ingridients
+        // POST: api/Ingredients
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<IngridientForView>> PostIngridient(IngridientForView ingridient)
+        public async Task<ActionResult<IngredientForView>> PostIngredient(IngredientForView ingridient)
         {
-            if (_context.Ingridient == null)
+            if (_context.Ingredient == null)
             {
-                return Problem("Entity set 'RecipesContext.Ingridient'  is null.");
+                return Problem("Entity set 'RecipesContext.Ingredient'  is null.");
             }
-            _context.Ingridient.Add((Ingridient)ingridient);
+            _context.Ingredient.Add((Ingredient)ingridient);
             await _context.SaveChangesAsync();
 
             return Ok(ingridient);
         }
 
-        // DELETE: api/Ingridients/5
+        // DELETE: api/Ingredients/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteIngridient(int id)
+        public async Task<IActionResult> DeleteIngredient(int id)
         {
-            if (_context.Ingridient == null)
+            if (_context.Ingredient == null)
             {
                 return NotFound();
             }
-            var ingridient = await _context.Ingridient.FindAsync(id);
+            var ingridient = await _context.Ingredient.FindAsync(id);
             if (ingridient == null)
             {
                 return NotFound();
             }
 
-            _context.Ingridient.Remove(ingridient);
+            _context.Ingredient.Remove(ingridient);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool IngridientExists(int id)
+        private bool IngredientExists(int id)
         {
-            return (_context.Ingridient?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Ingredient?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

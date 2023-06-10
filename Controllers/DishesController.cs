@@ -23,10 +23,10 @@ namespace RecipesAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DishForView>>> GetDish()
         {
-          if (_context.Dish == null)
-          {
-              return NotFound();
-          }
+            if (_context.Dish == null)
+            {
+                return NotFound();
+            }
             return (await _context
                 .Dish
                 .Include(dish => dish.DishType)
@@ -39,12 +39,13 @@ namespace RecipesAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<DishForView>> GetDish(int id)
         {
-          if (_context.Dish == null)
-          {
-              return NotFound();
-          }
-            var dish = await _context.Dish.FindAsync(id);
-            
+            if (_context.Dish == null)
+            {
+                return NotFound();
+            }
+
+            var dish = await _context.Dish.Include(dish => dish.DishType).FirstOrDefaultAsync(dish => dish.Id == id);
+
             if (dish == null)
             {
                 return NotFound();
@@ -89,11 +90,11 @@ namespace RecipesAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<DishForView>> PostDish(DishForView dish)
         {
-          if (_context.Dish == null)
-          {
-              return Problem("Entity set 'RecipesContext.Dish'  is null.");
-          }
-          var dishToAdd = new Dish().CopyProperties(dish);
+            if (_context.Dish == null)
+            {
+                return Problem("Entity set 'RecipesContext.Dish'  is null.");
+            }
+            var dishToAdd = new Dish().CopyProperties(dish);
             _context.Dish.Add(dishToAdd);
             await _context.SaveChangesAsync();
 
@@ -114,6 +115,7 @@ namespace RecipesAPI.Controllers
                 return NotFound();
             }
 
+            await DishB.DeleteDishIngredients(dish, _context);
             _context.Dish.Remove(dish);
             await _context.SaveChangesAsync();
 

@@ -3,13 +3,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RecipesAPI.Models
 {
-    public class DishIngridient : BaseDataTable
+    public class DishIngredient : BaseDataTable
     {
         public double Quantity { get; set; }
-        public int? IngridientId { get; set; }
+        public int? IngredientId { get; set; }
 
-        [ForeignKey("IngridientId")]
-        public virtual Ingridient? Ingridient { get; set; }
+        [ForeignKey("IngredientId")]
+        public virtual Ingredient? Ingredient { get; set; }
         public int? DishId { get; set; }
 
         [ForeignKey("DishId")]

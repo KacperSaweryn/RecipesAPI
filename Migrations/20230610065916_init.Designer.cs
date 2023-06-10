@@ -12,7 +12,7 @@ using RecipesAPI.Data;
 namespace RecipesAPI.Migrations
 {
     [DbContext(typeof(RecipesContext))]
-    [Migration("20230529090641_init")]
+    [Migration("20230610065916_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,36 @@ namespace RecipesAPI.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("DifficultyDish", b =>
+                {
+                    b.Property<int>("DifficultiesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DishesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("DifficultiesId", "DishesId");
+
+                    b.HasIndex("DishesId");
+
+                    b.ToTable("DifficultyDish");
+                });
+
+            modelBuilder.Entity("DishTool", b =>
+                {
+                    b.Property<int>("DishesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ToolsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("DishesId", "ToolsId");
+
+                    b.HasIndex("ToolsId");
+
+                    b.ToTable("DishTool");
+                });
 
             modelBuilder.Entity("RecipesAPI.Models.Difficulty", b =>
                 {
@@ -69,13 +99,7 @@ namespace RecipesAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("DifficultyId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("DishTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IngridientId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
@@ -88,20 +112,46 @@ namespace RecipesAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ToolId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("DifficultyId");
 
                     b.HasIndex("DishTypeId");
 
-                    b.HasIndex("IngridientId");
-
-                    b.HasIndex("ToolId");
-
                     b.ToTable("Dish");
+                });
+
+            modelBuilder.Entity("RecipesAPI.Models.DishIngredient", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("DishId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IngredientId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("Quantity")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DishId");
+
+                    b.HasIndex("IngredientId");
+
+                    b.ToTable("DishIngredient");
                 });
 
             modelBuilder.Entity("RecipesAPI.Models.DishType", b =>
@@ -134,7 +184,7 @@ namespace RecipesAPI.Migrations
                     b.ToTable("DishType");
                 });
 
-            modelBuilder.Entity("RecipesAPI.Models.Ingridient", b =>
+            modelBuilder.Entity("RecipesAPI.Models.Ingredient", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -159,9 +209,6 @@ namespace RecipesAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Quantity")
-                        .HasColumnType("float");
-
                     b.Property<int?>("UnitId")
                         .HasColumnType("int");
 
@@ -169,7 +216,7 @@ namespace RecipesAPI.Migrations
 
                     b.HasIndex("UnitId");
 
-                    b.ToTable("Ingridient");
+                    b.ToTable("Ingredient");
                 });
 
             modelBuilder.Entity("RecipesAPI.Models.Tool", b =>
@@ -232,45 +279,72 @@ namespace RecipesAPI.Migrations
                     b.ToTable("Unit");
                 });
 
+            modelBuilder.Entity("DifficultyDish", b =>
+                {
+                    b.HasOne("RecipesAPI.Models.Difficulty", null)
+                        .WithMany()
+                        .HasForeignKey("DifficultiesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RecipesAPI.Models.Dish", null)
+                        .WithMany()
+                        .HasForeignKey("DishesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DishTool", b =>
+                {
+                    b.HasOne("RecipesAPI.Models.Dish", null)
+                        .WithMany()
+                        .HasForeignKey("DishesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RecipesAPI.Models.Tool", null)
+                        .WithMany()
+                        .HasForeignKey("ToolsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("RecipesAPI.Models.Dish", b =>
                 {
-                    b.HasOne("RecipesAPI.Models.Difficulty", "Difficulty")
-                        .WithMany("Dishes")
-                        .HasForeignKey("DifficultyId");
-
-                    b.HasOne("RecipesAPI.Models.DishType", "DishTypeType")
+                    b.HasOne("RecipesAPI.Models.DishType", "DishType")
                         .WithMany("Dishes")
                         .HasForeignKey("DishTypeId");
 
-                    b.HasOne("RecipesAPI.Models.Ingridient", "Ingridient")
-                        .WithMany("Dishes")
-                        .HasForeignKey("IngridientId");
-
-                    b.HasOne("RecipesAPI.Models.Tool", "Tool")
-                        .WithMany("Dishes")
-                        .HasForeignKey("ToolId");
-
-                    b.Navigation("Difficulty");
-
-                    b.Navigation("DishTypeType");
-
-                    b.Navigation("Ingridient");
-
-                    b.Navigation("Tool");
+                    b.Navigation("DishType");
                 });
 
-            modelBuilder.Entity("RecipesAPI.Models.Ingridient", b =>
+            modelBuilder.Entity("RecipesAPI.Models.DishIngredient", b =>
+                {
+                    b.HasOne("RecipesAPI.Models.Dish", "Dish")
+                        .WithMany("DishIngredients")
+                        .HasForeignKey("DishId");
+
+                    b.HasOne("RecipesAPI.Models.Ingredient", "Ingredient")
+                        .WithMany("DishIngredients")
+                        .HasForeignKey("IngredientId");
+
+                    b.Navigation("Dish");
+
+                    b.Navigation("Ingredient");
+                });
+
+            modelBuilder.Entity("RecipesAPI.Models.Ingredient", b =>
                 {
                     b.HasOne("RecipesAPI.Models.Unit", "Unit")
-                        .WithMany("Ingridients")
+                        .WithMany("Ingredients")
                         .HasForeignKey("UnitId");
 
                     b.Navigation("Unit");
                 });
 
-            modelBuilder.Entity("RecipesAPI.Models.Difficulty", b =>
+            modelBuilder.Entity("RecipesAPI.Models.Dish", b =>
                 {
-                    b.Navigation("Dishes");
+                    b.Navigation("DishIngredients");
                 });
 
             modelBuilder.Entity("RecipesAPI.Models.DishType", b =>
@@ -278,19 +352,14 @@ namespace RecipesAPI.Migrations
                     b.Navigation("Dishes");
                 });
 
-            modelBuilder.Entity("RecipesAPI.Models.Ingridient", b =>
+            modelBuilder.Entity("RecipesAPI.Models.Ingredient", b =>
                 {
-                    b.Navigation("Dishes");
-                });
-
-            modelBuilder.Entity("RecipesAPI.Models.Tool", b =>
-                {
-                    b.Navigation("Dishes");
+                    b.Navigation("DishIngredients");
                 });
 
             modelBuilder.Entity("RecipesAPI.Models.Unit", b =>
                 {
-                    b.Navigation("Ingridients");
+                    b.Navigation("Ingredients");
                 });
 #pragma warning restore 612, 618
         }

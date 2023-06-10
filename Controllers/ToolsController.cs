@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RecipesAPI.Data;
-using RecipesAPI.Migrations;
 using RecipesAPI.Models;
 
 namespace RecipesAPI.Controllers
@@ -21,10 +20,10 @@ namespace RecipesAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Tool>>> GetTool()
         {
-          if (_context.Tool == null)
-          {
-              return NotFound();
-          }
+            if (_context.Tool == null)
+            {
+                return NotFound();
+            }
             return await _context.Tool.ToListAsync();
         }
 
@@ -32,10 +31,10 @@ namespace RecipesAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Tool>> GetTool(int id)
         {
-          if (_context.Tool == null)
-          {
-              return NotFound();
-          }
+            if (_context.Tool == null)
+            {
+                return NotFound();
+            }
             var tool = await _context.Tool.FindAsync(id);
 
             if (tool == null)
@@ -82,15 +81,15 @@ namespace RecipesAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Tool>> PostTool(Tool tool)
         {
-          if (_context.Tool == null)
-          {
-              return Problem("Entity set 'RecipesContext.Tool'  is null.");
-          }
+            if (_context.Tool == null)
+            {
+                return Problem("Entity set 'RecipesContext.Tool'  is null.");
+            }
             _context.Tool.Add(tool);
             await _context.SaveChangesAsync();
 
-            return Ok( tool);
-           
+            return Ok(tool);
+
         }
 
         // DELETE: api/Tools/5
