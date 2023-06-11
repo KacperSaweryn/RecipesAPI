@@ -4,6 +4,6 @@ namespace RecipesAPI.Models
 {
     public class Difficulty : DictionaryTable
     {
-        public ICollection<Dish>? Dishes { get; set; }
+        public ICollection<DishDifficulty>? DishDifficulties { get; set; }
     }
 }

@@ -14,7 +14,7 @@ namespace RecipesAPI.Models
 
         public ICollection<DishIngredient>? DishIngredients { get; set; }
 
-        public ICollection<Difficulty>? Difficulties { get; set; }
+        public ICollection<DishDifficulty>? DishDifficulties { get; set; }
 
         public ICollection<Tool>? Tools { get; set; }
     }

@@ -42,9 +42,9 @@ namespace RecipesAPI.Controllers
             {
                 return NotFound();
             }
-            
+
             var dishDifficulty = await _context.DishDifficulty.Include(ing => ing.Difficulty).FirstOrDefaultAsync(diff => diff.Id == id);
-            
+
             if (dishDifficulty == null)
             {
                 return NotFound();

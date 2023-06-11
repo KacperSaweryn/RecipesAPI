@@ -20,10 +20,10 @@ namespace RecipesAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Unit>>> GetUnit()
         {
-          if (_context.Unit == null)
-          {
-              return NotFound();
-          }
+            if (_context.Unit == null)
+            {
+                return NotFound();
+            }
             return await _context.Unit.ToListAsync();
         }
 
@@ -31,10 +31,10 @@ namespace RecipesAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Unit>> GetUnit(int id)
         {
-          if (_context.Unit == null)
-          {
-              return NotFound();
-          }
+            if (_context.Unit == null)
+            {
+                return NotFound();
+            }
             var unit = await _context.Unit.FindAsync(id);
 
             if (unit == null)
@@ -81,15 +81,15 @@ namespace RecipesAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Unit>> PostUnit(Unit unit)
         {
-          if (_context.Unit == null)
-          {
-              return Problem("Entity set 'RecipesContext.Unit'  is null.");
-          }
+            if (_context.Unit == null)
+            {
+                return Problem("Entity set 'RecipesContext.Unit'  is null.");
+            }
             _context.Unit.Add(unit);
             await _context.SaveChangesAsync();
 
-           
-             return Ok(unit);
+
+            return Ok(unit);
         }
 
         // DELETE: api/Units/5

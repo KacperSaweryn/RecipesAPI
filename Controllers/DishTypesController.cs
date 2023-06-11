@@ -20,10 +20,10 @@ namespace RecipesAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DishType>>> GetDishType()
         {
-          if (_context.DishType == null)
-          {
-              return NotFound();
-          }
+            if (_context.DishType == null)
+            {
+                return NotFound();
+            }
             return await _context.DishType.ToListAsync();
         }
 
@@ -31,10 +31,10 @@ namespace RecipesAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<DishType>> GetDishType(int id)
         {
-          if (_context.DishType == null)
-          {
-              return NotFound();
-          }
+            if (_context.DishType == null)
+            {
+                return NotFound();
+            }
             var dishType = await _context.DishType.FindAsync(id);
 
             if (dishType == null)
@@ -81,10 +81,10 @@ namespace RecipesAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<DishType>> PostDishType(DishType dishType)
         {
-          if (_context.DishType == null)
-          {
-              return Problem("Entity set 'RecipesContext.DishType'  is null.");
-          }
+            if (_context.DishType == null)
+            {
+                return Problem("Entity set 'RecipesContext.DishType'  is null.");
+            }
             _context.DishType.Add(dishType);
             await _context.SaveChangesAsync();
 

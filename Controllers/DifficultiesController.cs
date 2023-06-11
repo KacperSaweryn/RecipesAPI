@@ -20,10 +20,10 @@ namespace RecipesAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Difficulty>>> GetDifficulty()
         {
-          if (_context.Difficulty == null)
-          {
-              return NotFound();
-          }
+            if (_context.Difficulty == null)
+            {
+                return NotFound();
+            }
             return await _context.Difficulty.ToListAsync();
         }
 
@@ -31,10 +31,10 @@ namespace RecipesAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Difficulty>> GetDifficulty(int id)
         {
-          if (_context.Difficulty == null)
-          {
-              return NotFound();
-          }
+            if (_context.Difficulty == null)
+            {
+                return NotFound();
+            }
             var difficulty = await _context.Difficulty.FindAsync(id);
 
             if (difficulty == null)
@@ -81,10 +81,10 @@ namespace RecipesAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Difficulty>> PostDifficulty(Difficulty difficulty)
         {
-          if (_context.Difficulty == null)
-          {
-              return Problem("Entity set 'RecipesContext.Difficulty'  is null.");
-          }
+            if (_context.Difficulty == null)
+            {
+                return Problem("Entity set 'RecipesContext.Difficulty'  is null.");
+            }
             _context.Difficulty.Add(difficulty);
             await _context.SaveChangesAsync();
 
