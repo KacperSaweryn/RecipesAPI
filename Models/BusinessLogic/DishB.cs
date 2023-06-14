@@ -26,5 +26,17 @@ namespace RecipesAPI.Models.BusinessLogic
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async static Task<bool> DeleteDishDifficulties(Dish dish, RecipesContext _context)
+        {
+            var dishDifficultiess = _context.DishDifficulty.Where(difficulty => difficulty.DishId == dish.Id).ToList();
+            foreach (var difficulty in dishDifficultiess)
+            {
+                _context.Remove(difficulty);
+            }
+
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }

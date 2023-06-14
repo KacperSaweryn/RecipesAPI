@@ -116,6 +116,7 @@ namespace RecipesAPI.Controllers
             }
 
             await DishB.DeleteDishIngredients(dish, _context);
+            await DishB.DeleteDishDifficulties(dish, _context);
             _context.Dish.Remove(dish);
             await _context.SaveChangesAsync();
 
